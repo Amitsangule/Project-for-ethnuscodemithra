@@ -1,0 +1,4 @@
+mkdir mern-coding-challenge
+cd mern-coding-challenge
+npm init -y
+npm install express mongoose axios

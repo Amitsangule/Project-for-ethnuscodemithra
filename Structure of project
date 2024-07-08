@@ -1,0 +1,10 @@
+mern-coding-challenge/
+|-- node_modules/
+|-- src/
+|   |-- models/
+|   |   |-- Transaction.js
+|   |-- routes/
+|   |   |-- transactions.js
+|   |-- app.js
+|-- .env
+|-- package.json

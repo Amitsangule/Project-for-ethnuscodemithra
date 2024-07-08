@@ -1,0 +1,20 @@
+import React, { useState } from 'react';
+import TransactionsTable from './TransactionsTable';
+import Statistics from './Statistics';
+import BarChart from './BarChart';
+import PieChart from './PieChart';
+
+const App = () => {
+  const [month, setMonth] = useState('March');
+
+  return (
+    <div>
+      <TransactionsTable />
+      <Statistics month={month} />
+      <BarChart month={month} />
+      <PieChart month={month} />
+    </div>
+  );
+};
+
+export default App;

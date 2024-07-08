@@ -1,0 +1,64 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const TransactionsTable = () => {
+  const [transactions, setTransactions] = useState([]);
+  const [month, setMonth] = useState('March');
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      const response = await axios.get(`/api/transactions`, {
+        params: { month, search, page }
+      });
+      setTransactions(response.data);
+    };
+
+    fetchTransactions();
+  }, [month, search, page]);
+
+  return (
+    <div>
+      <select value={month} onChange={e => setMonth(e.target.value)}>
+        {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map(m => (
+          <option key={m} value={m}>{m}</option>
+        ))}
+      </select>
+      <input
+        type="text"
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+        placeholder="Search transactions"
+      />
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Date of Sale</th>
+            <th>Sold</th>
+            <th>Category</th>
+          </tr>
+        </thead>
+        <tbody>
+          {transactions.map(t => (
+            <tr key={t._id}>
+              <td>{t.title}</td>
+              <td>{t.description}</td>
+              <td>{t.price}</td>
+              <td>{new Date(t.dateOfSale).toLocaleDateString()}</td>
+              <td>{t.isSold ? 'Yes' : 'No'}</td>
+              <td>{t.category}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <button onClick={() => setPage(p => p > 1 ? p - 1 : p)}>Previous</button>
+      <button onClick={() => setPage(p => p + 1)}>Next</button>
+    </div>
+  );
+};
+
+export default TransactionsTable;

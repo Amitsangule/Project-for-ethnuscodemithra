@@ -1,0 +1,30 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const PieChart = ({ month }) => {
+  const [pieChartData, setPieChartData] = useState([]);
+
+  useEffect(() => {
+    const fetchPieChartData = async () => {
+      const response = await axios.get(`/api/piechart`, {
+        params: { month }
+      });
+      setPieChartData(response.data);
+    };
+
+    fetchPieChartData();
+  }, [month]);
+
+  return (
+    <div>
+      <h3>Pie Chart for {month}</h3>
+      {pieChartData.map(category => (
+        <div key={category._id}>
+          <p>{category._id}: {category.count}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default PieChart;

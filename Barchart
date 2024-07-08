@@ -1,0 +1,30 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const BarChart = ({ month }) => {
+  const [barChartData, setBarChartData] = useState([]);
+
+  useEffect(() => {
+    const fetchBarChartData = async () => {
+      const response = await axios.get(`/api/barchart`, {
+        params: { month }
+      });
+      setBarChartData(response.data);
+    };
+
+    fetchBarChartData();
+  }, [month]);
+
+  return (
+    <div>
+      <h3>Bar Chart for {month}</h3>
+      {barChartData.map(range => (
+        <div key={range.range}>
+          <p>{range.range}: {range.count}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default BarChart;
